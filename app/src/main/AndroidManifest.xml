@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.zap.foodapp">
+
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:largeHeap="true"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".Splash_activity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Navigation"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".LoginActivity"
+            android:label="@string/title_activity_login" />
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+
+        <provider
+            android:name="com.facebook.FacebookContentProvider"
+            android:authorities="com.facebook.app.FacebookContent"
+            android:exported="true" />
+
+        <activity
+            android:name=".Facebook.FacebookSignupActivity"
+            android:label="@string/title_activity_signup" />
+        <activity
+            android:name=".DeliveryLocation.deliveryLocation"
+            android:label="Our Delivery Locations"
+            android:parentActivityName=".Navigation" />
+
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".Navigation" />
+
+        <activity
+            android:name=".MyOrders"
+            android:label="My Orders"
+            android:parentActivityName=".Navigation" />
+
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".Navigation" />
+
+        <activity
+            android:name=".MyAccount"
+            android:label="My Account"
+            android:parentActivityName=".Navigation" />
+
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".Navigation" />
+
+        <activity
+            android:name=".Contact_us"
+            android:label="Contact US"
+            android:parentActivityName=".Navigation" />
+
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".Navigation" />
+
+        <activity
+            android:name=".SetLocation"
+            android:label="Set Location"
+            android:parentActivityName=".Navigation" />
+
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".Navigation" />
+
+        <activity
+            android:name=".DeliveryTime"
+            android:label="Select Delivery Time"
+            android:parentActivityName=".DeliveryLocation.deliveryLocation">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".DeliveryLocation.deliveryLocation" />
+        </activity>
+        <activity
+            android:name=".FoodCourtList.FoodCourtList"
+            android:label="Our Food Courts" />
+        <activity
+            android:name=".StallList.Stall_list"
+            android:label="Our Stalls" />
+        <activity
+            android:name=".Food_List.FoodList"
+            android:label="Our Foods" />
+        <activity
+            android:name=".MyCart.MyCart"
+            android:label="My Cart"></activity>
+        <activity
+            android:name=".Payment"
+            android:label="Payment"
+            android:parentActivityName=".MyCart.MyCart">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MyCart.MyCart" />
+        </activity>
+        <activity android:name=".SignUp.AppSignupActivity" />
+        <activity android:name=".BasicActiviy"></activity>
+    </application>
+
+</manifest>
