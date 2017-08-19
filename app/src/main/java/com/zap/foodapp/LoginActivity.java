@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -12,6 +13,16 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.HttpHeaderParser;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
@@ -29,6 +40,7 @@ import com.zap.foodapp.Facebook.FacebookSignupActivity;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 
 
@@ -39,8 +51,13 @@ public class LoginActivity extends AppCompatActivity {
     private Button sign_in_button;
     private AccessTokenTracker accessTokenTracker;
     private ProfileTracker profileTracker;
-    private TextView forgot;
+    private TextView forgot, phonenumber, password;
     String idString, nameString, emailString;
+    private String appPhoneNumber, appPassword;
+
+    String url = "http://18.220.71.157:8080/foodcourt/customer/login";
+
+    AlertDialog.Builder builder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +68,11 @@ public class LoginActivity extends AppCompatActivity {
         loginButton = (LoginButton) findViewById(R.id.fb);
         sign_in_button = (Button) findViewById(R.id.sign_in_button);
         forgot = (TextView) findViewById(R.id.forgot);
+        phonenumber = (TextView) findViewById(R.id.phonenumber);
+        password = (TextView) findViewById(R.id.password);
+
+        builder = new AlertDialog.Builder(LoginActivity.this);
+
 
         callbackManager = CallbackManager.Factory.create();
         accessTokenTracker = new AccessTokenTracker() {
@@ -62,7 +84,6 @@ public class LoginActivity extends AppCompatActivity {
         profileTracker = new ProfileTracker() {
             @Override
             protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
-                nextActivity(currentProfile);
             }
         };
 
@@ -72,9 +93,61 @@ public class LoginActivity extends AppCompatActivity {
         sign_in_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(LoginActivity.this, Navigation.class);
-                startActivity(intent);
-                finish();
+                try {
+                    appPhoneNumber = phonenumber.getText().toString().trim();
+                    appPassword = password.getText().toString().trim();
+
+                    RequestQueue requestQueue = Volley.newRequestQueue(LoginActivity.this);
+                    String URL = "http://18.220.71.157:8080/foodcourt/customer/login";
+                    JSONObject jsonBody = new JSONObject();
+                    jsonBody.put("phone",appPhoneNumber);
+                    jsonBody.put("password",appPassword);
+                    final String mRequestBody = jsonBody.toString();
+
+                    StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Log.i("LOG_VOLLEY", response);
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.e("LOG_VOLLEY", error.toString());
+                        }
+                    }) {
+                        @Override
+                        public String getBodyContentType() {
+                            return "application/json; charset=utf-8";
+                        }
+
+                        @Override
+                        public byte[] getBody() throws AuthFailureError {
+                            try {
+                                return mRequestBody == null ? null : mRequestBody.getBytes("utf-8");
+
+                            } catch (UnsupportedEncodingException uee) {
+
+                                VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", mRequestBody, "utf-8");
+                                return null;
+                            }
+                        }
+
+                        @Override
+                        protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                            String responseString = "";
+                            if (response != null) {
+                                responseString = String.valueOf(response.statusCode);
+
+                            }
+                            return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response));
+                        }
+                    };
+
+                    requestQueue.add(stringRequest);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -91,8 +164,6 @@ public class LoginActivity extends AppCompatActivity {
             FacebookCallback<LoginResult> callback = new FacebookCallback<LoginResult>() {
                 @Override
                 public void onSuccess(LoginResult loginResult) {
-                    Profile profile = Profile.getCurrentProfile();
-                    nextActivity(profile);
                     GraphRequest request = GraphRequest.newMeRequest(
                             loginResult.getAccessToken(),
                             new GraphRequest.GraphJSONObjectCallback() {
@@ -146,28 +217,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        Profile profile = Profile.getCurrentProfile();
-        nextActivity(profile);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    @Override
     protected void onStop() {
         super.onStop();
         profileTracker.stopTracking();
         accessTokenTracker.stopTracking();
-    }
-
-    private void nextActivity(Profile profile) {
-
-        if (profile != null) {
-        }
     }
 
     @Override
@@ -175,6 +228,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
+
 
     public static class CheckNetwork {
 

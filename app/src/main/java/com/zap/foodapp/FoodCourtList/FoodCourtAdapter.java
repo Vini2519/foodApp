@@ -22,7 +22,7 @@ import java.util.ArrayList;
 
 public class FoodCourtAdapter extends RecyclerView.Adapter<FoodCourtAdapter.ViewHolder> implements Filterable {
 
-    public static final String url = "http://13.59.128.132:8080/foodcourt/foodstall/list?";
+    public static final String url = "http://18.220.71.157:8080/foodcourt/foodstall/list?";
     private ArrayList<FoodListItem> listItems;
     private Context context;
     private ArrayList<FoodListItem> mFilteredList;

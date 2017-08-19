@@ -38,7 +38,7 @@ import java.io.UnsupportedEncodingException;
 public class FacebookSignupActivity extends AppCompatActivity {
 
     private TextView names, emails, phone;
-    private static final String URL = "http://13.59.128.132:8080/foodcourt/customer/register";
+    private static final String URL = "http://18.220.71.157:8080/foodcourt/customer/register";
     private Button button, login;
     FbUserDetails fbUserDetails;
     String id;

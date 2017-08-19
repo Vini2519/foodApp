@@ -26,7 +26,7 @@ import java.util.ArrayList;
 
 public class StallAdapter extends RecyclerView.Adapter<StallAdapter.ViewHolder> implements Filterable {
 
-    public static final String urls = "http://13.59.128.132:8080/foodcourt/fooditem/list?";
+    public static final String urls = "http://18.220.71.157:8080/foodcourt/fooditem/list?";
     private ArrayList<StallListItem> listItems;
     private Context context;
     private ArrayList<StallListItem> mFilteredList;

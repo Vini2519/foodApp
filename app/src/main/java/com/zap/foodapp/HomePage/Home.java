@@ -37,7 +37,7 @@ public class Home extends Fragment {
 
 
     private TextView textView;
-    private static final String URL = "http://13.59.128.132:8080/foodcourt/deliverylocation/list";
+    private static final String URL = "http://18.220.71.157:8080/foodcourt/deliverylocation/list";
     private AutoCompleteTextView autoCompleteTextView;
     String[] data;
     List<String> idString, idTime, data1;

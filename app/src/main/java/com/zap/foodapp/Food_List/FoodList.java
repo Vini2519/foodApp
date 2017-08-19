@@ -38,7 +38,7 @@ import java.util.ArrayList;
 
 public class FoodList extends AppCompatActivity {
 
-    private static String url = "http://13.59.128.132:8080/foodcourt/fooditem/list?";
+    private static String url = "http://18.220.71.157:8080/foodcourt/fooditem/list?";
 
     private RecyclerView recyclerView;
     private FoodListAdapter adapter;

@@ -29,7 +29,7 @@ import java.util.ArrayList;
 public class Stall_list extends AppCompatActivity {
 
 
-    private static String url = "http://13.59.128.132:8080/foodcourt/foodstall/list?";
+    private static String url = "http://18.220.71.157:8080/foodcourt/foodstall/list?";
 
     private RecyclerView recyclerView;
     private StallAdapter adapter;

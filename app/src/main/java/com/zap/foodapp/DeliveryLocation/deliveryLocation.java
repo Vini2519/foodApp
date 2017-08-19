@@ -24,7 +24,7 @@ import java.util.ArrayList;
 
 public class deliveryLocation extends AppCompatActivity {
 
-    private static final String URL = "http://13.59.128.132:8080/foodcourt/deliverylocation/list";
+    private static final String URL = "http://18.220.71.157:8080/foodcourt/deliverylocation/list";
 
     private RecyclerView recyclerView;
     private MyAdapter adapter;
